@@ -1,0 +1,69 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: Webhook
+components:
+  schemas:
+    Person:
+      type: object
+      properties:
+        Id:
+          type: number
+        Name:
+          type: string
+        Age:
+          type: string
+        Gender:
+          type: string
+      additionalProperties: false
+      description: ' '
+  securitySchemes:
+    clientId:
+      in: header
+      name: X-IBM-Client-Id
+      type: apiKey
+paths:
+  /Person/{Id}:
+    get:
+      tags:
+        - Person
+      summary: Retrieve Person by ID
+      operationId: Person.findById
+      parameters:
+        - name: Id
+          in: path
+          description: Person id
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+  /Person:
+    post:
+      tags:
+        - Person
+      summary: Create Person.
+      operationId: Person.create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Person'
+        required: true
+      responses:
+        '201':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+security:
+  - clientId: []
+servers:
+  - url: >-
+      https://api.ap-southeast-a.apiconnect.ibmappdomain.cloud/api-connect-2f/sandbox/Webhook
